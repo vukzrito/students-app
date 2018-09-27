@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Students.Models;
 
 namespace Students.Data
 {
@@ -12,5 +13,6 @@ namespace Students.Data
             : base(options)
         {
         }
+        public DbSet<Students.Models.Student> Students { get; set; }
     }
 }
