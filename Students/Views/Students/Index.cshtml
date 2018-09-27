@@ -1,38 +1,56 @@
-﻿@model IEnumerable<Students.Models.Student>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Student>
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Students</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+  @{
+          if (@UserManager.GetUserName(User) != null)
+          {
+              <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addModal">
+                  Add Student
+              </button>
+    }
+          else
+          {
+              <p class="pull-right">
+                  You do not have the correct permissions to change student records
+              </p>
+          }
+      }
+
+          <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salutation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Salutation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -49,12 +67,67 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Gender)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            @{
+                if (@UserManager.GetUserName(User) != null)
+                {
+                    <td>
+                        <a onclick="populateEditForm('@item.Id')">Edit</a>
+                    </td>
+                }
+            }
+
         </tr>
-}
+    }
     </tbody>
 </table>
+
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Add Student</h4>
+            </div>
+            <div class="modal-body">
+
+                <select class="form-control" id="Salutation" name="Salutation">
+                    <option value="Mr">Mr</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Mrs">Mrs</option>
+                    <option value="Dr">Dr</option>
+                </select>
+                <div class="form-group">
+                    <label class="control-label" for="FirstName">First name</label>
+                    <input class="form-control" type="text" id="FirstName" name="FirstName" value="">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="LastName">Surname</label>
+                    <input class="form-control" type="text" id="LastName" name="LastName" value="">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="Age">Age</label>
+                    <input class="form-control" type="number" data-val="true" data-val-required="The Age field is required." id="Age" name="Age" value="">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Age" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
+                    <select class="form-control valid" data-val="true" data-val-required="The Gender field is required." id="Gender" name="Gender" aria-describedby="Gender-error" >
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
+                    </select>
+                </div>
+                  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addUser()" id="btnAdd">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_EditStudentForm" />

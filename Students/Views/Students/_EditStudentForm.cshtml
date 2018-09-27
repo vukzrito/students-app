@@ -1,0 +1,53 @@
+﻿
+@{
+}
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Edit Student</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="EditId"/>
+                <select class="form-control" id="EditSalutation" name="EditSalutation">
+                    <option value="Mr">Mr</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Mrs">Mrs</option>
+                    <option value="Dr">Dr</option>
+                </select>
+                <div class="form-group">
+                    <label class="control-label" for="EditFirstName">First name</label>
+                    <input class="form-control" type="text" id="EditFirstName" name="EditFirstName" value="">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="EditFirstName" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="EditLastName">Surname</label>
+                    <input class="form-control" type="text" id="EditLastName" name="EditLastName" value="">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="EditLastName" data-valmsg-replace="true"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="EditAge">Age</label>
+                    <input class="form-control" type="number" data-val="true" data-val-required="The Age field is required." id="EditAge" name="EditAge" value="">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="EditAge" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
+                    <select class="form-control valid" data-val="true" data-val-required="The Gender field is required." id="EditGender" name="EditGender" aria-describedby="Gender-error">
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="updateStudent()" >Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

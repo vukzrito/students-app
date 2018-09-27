@@ -39,24 +39,33 @@ namespace Students.Controllers
             return View(student);
         }
 
-        // GET: Students/Create
+
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Student student)
+        public async Task<IActionResult> Create([FromBody] Student student)
         {
             if (!ModelState.IsValid) return View(student);
 
             await _studentRepository.Insert(student);
-            return RedirectToAction(nameof(Index));
+            _studentRepository.Save();
+            return Created(new Uri(RouteData.ToString(), UriKind.Relative), student);
+        }
+
+/*
+        [HttpGet]
+        [Route("Students/GetById")]*/
+        public JsonResult GetById([FromRoute] string id)
+        {
+            var student = _studentRepository.Get(id);
+            return Json(student);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, Student student)
+        public async Task<IActionResult> Edit(string id, [FromBody] Student student)
         {
             if (id != student.Id)
             {
