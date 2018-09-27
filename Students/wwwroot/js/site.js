@@ -1,5 +1,19 @@
 ﻿
-const addUser = () => {
+const addStudent = () => {
+    if (!isAddStudentValid()) {
+        let timerInterval;
+        swal({
+            title: "Invalid data provided, please review",
+            type: 'error',
+            timer: 5000,
+            showCancelButton: true,
+            onClose: () => {
+                clearInterval(timerInterval);
+
+            }
+        });
+        return false;
+    }
     const student = {
         Age: $('#Age').val(),
         Gender: $('#Gender').val(),

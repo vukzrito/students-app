@@ -9,8 +9,8 @@ namespace Students.Repository
     {
         IEnumerable<T> GetAll();
         Student Get(string id);  
-        Task Insert(T student);
-        Task Update(T student);
+        void Insert(T student);
+        void Update(T student);
         void Save();
     }
-}       
+}           

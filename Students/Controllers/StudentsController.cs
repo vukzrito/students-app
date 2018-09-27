@@ -46,18 +46,15 @@ namespace Students.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Student student)
+        public IActionResult Create([FromBody] Student student)
         {
             if (!ModelState.IsValid) return View(student);
 
-            await _studentRepository.Insert(student);
+            _studentRepository.Insert(student);
             _studentRepository.Save();
             return Created(new Uri(RouteData.ToString(), UriKind.Relative), student);
         }
-
-/*
-        [HttpGet]
-        [Route("Students/GetById")]*/
+        
         public JsonResult GetById([FromRoute] string id)
         {
             var student = _studentRepository.Get(id);
@@ -65,21 +62,19 @@ namespace Students.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, [FromBody] Student student)
+        public IActionResult Edit(string id, [FromBody] Student student)
         {
             if (id != student.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                await _studentRepository.Update(student);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            _studentRepository.Update(student);
+            _studentRepository.Save();
 
-                return RedirectToAction(nameof(Index));
-            }
+            return Ok();
 
-            return View(student);
         }
     }
 }

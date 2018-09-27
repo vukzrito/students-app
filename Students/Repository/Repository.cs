@@ -27,17 +27,15 @@ namespace Students.Repository
             return _context.Students.FirstOrDefault(m => m.Id == id);
         }
 
-        public async Task Insert(Student student)
+        public void Insert(Student student)
         {
             student.Id = Guid.NewGuid().ToString();
             _context.Add(student);
-            await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Student student)
+        public void Update(Student student)
         {
             _context.Update(student);
-            await _context.SaveChangesAsync();
         }
 
         public void Save()
