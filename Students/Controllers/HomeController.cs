@@ -17,7 +17,7 @@ namespace Students.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Test App for students.";
 
             return View();
         }
